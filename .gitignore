@@ -10,5 +10,5 @@
 *.VC.db
 *.VC.opendb
 *.suo
-.vs
-.sln
+*.vs
+*.sln
