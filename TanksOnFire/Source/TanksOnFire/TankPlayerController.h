@@ -22,11 +22,11 @@ class TANKSONFIRE_API ATankPlayerController : public APlayerController
 public:
 	ATank* GetControlledTank() const;
 	virtual void Tick(float DeltaTime) override;
-	void AimTowardsCrosshair();	
+	void AimTowardsCrosshair();
 
 protected:
 	virtual void BeginPlay() override;
-	bool GetSightRayHitlocation(FVector&) const;
+	bool GetSightRayHitlocation() const;
 	bool GetLookDirection(FVector2D, FVector&, FVector&) const;
 	UPROPERTY(EditAnywhere)
 		float CrosshairLocationX = 0.5;
@@ -34,5 +34,5 @@ protected:
 		float CrosshairLocationY = 0.333;
 	UPROPERTY(EditAnywhere)
 		float LineTraceRange = 1000000.0;
-	bool GetLookVectorHitLocation(FVector, FVector, FVector&) const;
+	void GetLookVectorHitLocation(FVector, FVector, FVector&) const;
 };

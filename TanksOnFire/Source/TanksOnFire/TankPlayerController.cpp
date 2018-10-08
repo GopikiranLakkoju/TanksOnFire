@@ -36,12 +36,12 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	FVector hitLocation;
 
-	GetSightRayHitlocation(hitLocation);
+	GetSightRayHitlocation();
 
-	UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *hitLocation.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s on %s"), *hitLocation.ToString(), *ActorThatTookhit);
 }
 
-bool ATankPlayerController::GetSightRayHitlocation(FVector& hitLocation) const
+bool ATankPlayerController::GetSightRayHitlocation() const
 {
 	// find the crosshair position in pixel co-ordinates
 	int32 viewPortSizeX, viewPortSizeY;
@@ -56,7 +56,7 @@ bool ATankPlayerController::GetSightRayHitlocation(FVector& hitLocation) const
 	if (GetLookDirection(screenLocation, CameraWorldLocation, LookDirection))
 	{
 		// line trace along the look direction, and see what we hit (max range)		
-		GetLookVectorHitLocation(LookDirection, CameraWorldLocation, hitLocation);
+		GetLookVectorHitLocation(LookDirection, CameraWorldLocation, LookDirection);
 	}
 
 	return false;
@@ -72,17 +72,20 @@ bool ATankPlayerController::GetLookDirection(FVector2D screenLocation, FVector& 
 	return is3dposition;
 }
 
-bool ATankPlayerController::GetLookVectorHitLocation(FVector lookDirection, FVector cameraWorldLocation, FVector& hitLocation) const
+void ATankPlayerController::GetLookVectorHitLocation(FVector lookDirection, FVector cameraWorldLocation, FVector& hitLocation) const
 {
 	FHitResult hitResult;
+	FString hitObject;
 	FVector startLocation = cameraWorldLocation;//PlayerCameraManager->GetCameraLocation();
 	FVector endLocation = startLocation + (lookDirection * LineTraceRange);
 	bool isHit = GetWorld()->LineTraceSingleByChannel(hitResult, startLocation, endLocation, ECollisionChannel::ECC_WorldStatic);
 	if (isHit)
 	{
 		hitLocation = hitResult.ImpactPoint;
-		DrawDebugLine(GetWorld(), hitResult.TraceStart, hitResult.TraceEnd, FColor::Red, false, 0.0, 0.0, 10.0);
-		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *hitResult.ToString());
+		hitObject = hitResult.GetActor()->GetName();
+		//DrawDebugLine(GetWorld(), hitResult.TraceStart, hitResult.TraceEnd, FColor::Red, false, 0.0, 0.0, 10.0);
+		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s on Object %s"), *hitLocation.ToString(), *hitObject);
+		return;
 	}
-	return isHit;
+	UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s on Object %s"), *FVector(0).ToString(), *hitObject);
 }
