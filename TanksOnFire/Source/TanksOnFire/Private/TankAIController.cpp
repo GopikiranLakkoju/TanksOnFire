@@ -3,23 +3,38 @@
 #include "TankAIController.h"
 #include "../Public/TankAIController.h"
 
-
-ATank* ATankAIController::GetPlayerControlledTank() const
+ATank* ATankAIController::GetControlledTank() const
 {
-	APawn* payerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+	return Cast<ATank>(GetPawn());
+}
+
+ATank* ATankAIController::GetPlayerControllerTank() const
+{
+	APawn* playerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
 	ATank* playerTank = nullptr;
-	if (payerPawn)
+	if (playerPawn)
 	{
-		playerTank = Cast<ATank>(payerPawn);
+		playerTank = Cast<ATank>(playerPawn);
 	}
 	return playerTank;
+}
+
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	ATank* heroPlayer = GetPlayerControllerTank();
+
+	if (heroPlayer)
+	{
+		GetControlledTank()->AimAt(heroPlayer->GetActorLocation());
+	}
 }
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 		
-	ATank* playerControlledTank = GetPlayerControlledTank();
+	ATank* playerControlledTank = GetPlayerControllerTank();
 	
 	if (!playerControlledTank)
 	{
@@ -30,4 +45,3 @@ void ATankAIController::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("AIController found the player: %s"), *playerControlledTank->GetName());
 	}
 }
-

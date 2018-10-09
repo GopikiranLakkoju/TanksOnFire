@@ -15,11 +15,14 @@ UCLASS()
 class TANKSONFIRE_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
-	
+public:
+	ATank* GetControlledTank() const;
+
 private:
-	ATank* GetPlayerControlledTank() const;
+	ATank* GetPlayerControllerTank() const;
 
 protected:
-	virtual void BeginPlay() override;	
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 	
 };
