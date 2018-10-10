@@ -83,9 +83,10 @@ void ATankPlayerController::GetLookVectorHitLocation(FVector lookDirection, FVec
 	{
 		hitLocation = hitResult.ImpactPoint;
 		hitObject = hitResult.GetActor()->GetName();
+		ATank* tank = GetControlledTank();
 		//DrawDebugLine(GetWorld(), hitResult.TraceStart, hitResult.TraceEnd, FColor::Red, false, 0.0, 0.0, 10.0);
 		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s on Object %s"), *hitLocation.ToString(), *hitObject);
-		GetControlledTank()->AimAt(hitLocation);
+		tank->AimAt(hitLocation, tank->LaunchSpeed);
 		return;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s on Object %s"), *FVector(0).ToString(), *hitObject);

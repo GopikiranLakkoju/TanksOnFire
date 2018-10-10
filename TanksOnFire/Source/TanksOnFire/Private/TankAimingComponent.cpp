@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
+#include "../Public/TankBarrel.h"
 #include "../Public/TankAimingComponent.h"
 
 
@@ -21,7 +22,7 @@ void UTankAimingComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
+
 }
 
 
@@ -33,15 +34,40 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UTankAimingComponent::AimAt(FVector hitLocation) const
+void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed)
 {
-	FString ourTank = GetOwner()->GetName();
-	FVector barrelLocation = Barrel->GetComponentLocation();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *ourTank, *hitLocation.ToString(), *barrelLocation.ToString());
+	if (!Barrel) return;
+
+	FVector OutLaunchVelocity;
+	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+
+	// Calculate the OutLaunchVelocity
+	bool isProjectileSuccess = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, hitLocation, launchSpeed, ESuggestProjVelocityTraceOption::DoNotTrace);
+	if (isProjectileSuccess)
+	{
+		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
+		FString tankName = GetOwner()->GetName();
+		/*FString ourTank = GetOwner()->GetName();
+		FVector barrelLocation = Barrel->GetComponentLocation();*/
+		//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *ourTank, *hitLocation.ToString(), *barrelLocation.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("%s Aiming at %s"), *tankName, *AimDirection.ToString());
+		MoveBarrelTowards(AimDirection);
+	}
+	
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* barrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* barrelToSet)
 {
 	Barrel = barrelToSet;
+}
+
+void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
+{
+	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
+	FRotator AimAsRotator = aimDirection.Rotation();
+	FRotator DeltaRotator = AimAsRotator - BarrelRotator;
+	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *AimAsRotator.ToString());
+
+	Barrel->Elevate(5);
 }
 

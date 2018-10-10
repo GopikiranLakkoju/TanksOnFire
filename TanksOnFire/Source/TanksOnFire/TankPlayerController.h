@@ -28,11 +28,15 @@ protected:
 	virtual void BeginPlay() override;
 	bool GetSightRayHitlocation() const;
 	bool GetLookDirection(FVector2D, FVector&, FVector&) const;
+	
 	UPROPERTY(EditAnywhere)
 		float CrosshairLocationX = 0.5;
+
 	UPROPERTY(EditAnywhere)
 		float CrosshairLocationY = 0.333;
+
 	UPROPERTY(EditAnywhere)
 		float LineTraceRange = 1000000.0;
+
 	void GetLookVectorHitLocation(FVector, FVector, FVector&) const;
 };

@@ -23,10 +23,10 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	ATank* heroPlayer = GetPlayerControllerTank();
-
+	auto tank = GetControlledTank();
 	if (heroPlayer)
 	{
-		GetControlledTank()->AimAt(heroPlayer->GetActorLocation());
+		tank->AimAt(heroPlayer->GetActorLocation(), tank->LaunchSpeed);
 	}
 }
 
