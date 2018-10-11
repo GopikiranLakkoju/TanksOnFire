@@ -53,7 +53,11 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed)
 		//UE_LOG(LogTemp, Warning, TEXT("%s Aiming at %s"), *tankName, *AimDirection.ToString());
 		MoveBarrelTowards(AimDirection);
 	}
-	
+	else
+	{
+		float time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f: Barrel->Elevate() had no solution"), time);
+	}		
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* barrelToSet)
