@@ -41,8 +41,9 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed)
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
-	// Calculate the OutLaunchVelocity
-	bool isProjectileSuccess = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, hitLocation, launchSpeed, ESuggestProjVelocityTraceOption::DoNotTrace);
+	// Calculate the OutLaunchVelocity, however there has been some misconception on how this method woks
+	// for more info look into: https://community.gamedev.tv/t/suggestprojectilevelocity-is-not-a-bug-working-as-intended-and-heres-why/79193
+	bool isProjectileSuccess = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, hitLocation, launchSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace);
 	if (isProjectileSuccess)
 	{
 		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
