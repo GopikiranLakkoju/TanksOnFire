@@ -8,12 +8,13 @@ void UTankBarrel::Elevate(float relativeSpeed)
 {
 	float time = GetWorld()->GetTimeSeconds();
 	float elevationChange = relativeSpeed * MaxDegreesPerSec * time;
-	UE_LOG(LogTemp, Warning, TEXT("Elevation change %f"), elevationChange);
 	float rawNewElevation = RelativeRotation.Pitch + elevationChange;
-	UE_LOG(LogTemp, Warning, TEXT("Raw elevation %f"), rawNewElevation);
-	float elevation = FMath::Clamp<float>(rawNewElevation, MaxElevationDegrees, MinElevationDegrees);
-
-	SetRelativeRotation(FRotator(0, 0, elevation));
+	//UE_LOG(LogTemp, Warning, TEXT("Raw elevation %f"), rawNewElevation);
+	// clamps the value bw min and max, however due to location and rotation problems of the mesh
+	// had to tweak it a bit
+	float elevation = FMath::Clamp<float>(rawNewElevation, MinElevationDegrees, MaxElevationDegrees);
+	
+	SetRelativeRotation(FRotator(elevation, 0, 0));
 	UE_LOG(LogTemp, Warning, TEXT("Tank barrel elevation %f"), elevation);
 }
 
