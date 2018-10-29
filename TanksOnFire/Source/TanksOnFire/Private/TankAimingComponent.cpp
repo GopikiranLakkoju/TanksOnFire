@@ -58,12 +58,24 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed)
 	{
 		float time = GetWorld()->GetTimeSeconds();
 		UE_LOG(LogTemp, Warning, TEXT("%f: Barrel->Elevate() had no solution"), time);
-	}		
+	}
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* barrelToSet)
 {
-	Barrel = barrelToSet;
+	if (barrelToSet)
+	{
+		Barrel = barrelToSet;
+	}
+}
+
+
+void UTankAimingComponent::SetTurretReference(UTankTurret * turretToSet)
+{
+	if (turretToSet)
+	{
+		Turret = turretToSet;
+	}	
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
@@ -73,6 +85,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 	FRotator DeltaRotator = AimAsRotator - BarrelRotator;
 	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *AimAsRotator.ToString());
 
-	Barrel->Elevate(-1);
+	Barrel->Elevate(DeltaRotator.Pitch);
 }
 

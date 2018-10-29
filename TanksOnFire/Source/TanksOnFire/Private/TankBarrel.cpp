@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankBarrel.h"
-#include "../Public/TankBarrel.h"
 
 
 void UTankBarrel::Elevate(float relativeSpeed)
 {
+	relativeSpeed = FMath::Clamp<float>(relativeSpeed, -1, 1);
 	float time = GetWorld()->GetTimeSeconds();
 	float elevationChange = relativeSpeed * MaxDegreesPerSec * time;
 	float rawNewElevation = RelativeRotation.Pitch + elevationChange;

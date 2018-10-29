@@ -7,7 +7,6 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-
 UCLASS()
 class TANKSONFIRE_API ATank : public APawn
 {
@@ -31,7 +30,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void SetBarrelReference(UTankBarrel* barrelToSet);
 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+		void SetTurretReference(UTankTurret* turretToSet);
+
 	// Launch speed modifayable, 1000 m/s
 	UPROPERTY(EditAnywhere, Category = "Firing")
-		float LaunchSpeed = 10000;
+		float LaunchSpeed = 8000;
 };
