@@ -35,5 +35,5 @@ public:
 
 	// Launch speed modifayable, 1000 m/s
 	UPROPERTY(EditAnywhere, Category = "Firing")
-		float LaunchSpeed = 8000;
+		float LaunchSpeed = 5000;
 };

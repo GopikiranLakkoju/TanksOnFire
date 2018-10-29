@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
-#include "../Public/TankBarrel.h"
 #include "../Public/TankAimingComponent.h"
 
 
@@ -10,7 +9,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
@@ -83,8 +82,8 @@ void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator AimAsRotator = aimDirection.Rotation();
 	FRotator DeltaRotator = AimAsRotator - BarrelRotator;
-	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *AimAsRotator.ToString());
-
+	// barrel pitch motion
 	Barrel->Elevate(DeltaRotator.Pitch);
+	// turret yaw motion
+	Turret->Rotate(DeltaRotator.Yaw);
 }
-

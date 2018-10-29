@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "../Public/TankBarrel.h"
+#include "TankTurret.h"
 #include "CoreMinimal.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/ActorComponent.h"
