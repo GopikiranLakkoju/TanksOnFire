@@ -21,6 +21,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UTankAimingComponent* TankAimingComponent = nullptr;
+	UTankBarrel* Barrel = nullptr;
 
 public:
 
@@ -33,7 +34,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void SetTurretReference(UTankTurret* turretToSet);
 
+	UFUNCTION(BlueprintCallable)
+		void Fire();
+
 	// Launch speed modifayable, 1000 m/s
 	UPROPERTY(EditAnywhere, Category = "Firing")
 		float LaunchSpeed = 5000;
+
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		TSubclassOf<AProjectile> ProjectileBlueprint;
 };

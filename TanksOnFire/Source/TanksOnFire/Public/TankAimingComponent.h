@@ -4,6 +4,7 @@
 
 #include "../Public/TankBarrel.h"
 #include "TankTurret.h"
+#include "Projectile.h"
 #include "CoreMinimal.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/ActorComponent.h"
@@ -12,6 +13,7 @@
 // Forward declaration 
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TANKSONFIRE_API UTankAimingComponent : public UActorComponent

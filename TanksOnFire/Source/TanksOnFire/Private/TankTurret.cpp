@@ -11,5 +11,5 @@ void UTankTurret::Rotate(float relativeSpeed)
 	//UE_LOG(LogTemp, Warning, TEXT("Raw elevation %f"), rawNewElevation);
 
 	SetRelativeRotation(FRotator(0, rawNewElevation, 0));
-	UE_LOG(LogTemp, Warning, TEXT("Tank turret elevation %f"), rawNewElevation);
+	//UE_LOG(LogTemp, Warning, TEXT("Tank turret elevation %f"), rawNewElevation);
 }
