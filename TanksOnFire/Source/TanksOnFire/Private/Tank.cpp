@@ -38,14 +38,12 @@ void ATank::SetTurretReference(UTankTurret * turretToSet)
 }
 
 void ATank::Fire()
-{
-	FString name = GetWorld()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("Tank fired"));
-
+{	
 	if (Barrel)
 	{
-		GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
+		AProjectile* projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
 		UE_LOG(LogTemp, Warning, TEXT("Projectile working"));
+		projectile->LaunchProjectile(LaunchSpeed);
 	}
 }
 
