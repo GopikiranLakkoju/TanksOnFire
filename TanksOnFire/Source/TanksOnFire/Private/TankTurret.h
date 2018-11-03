@@ -17,6 +17,6 @@ class UTankTurret : public UStaticMeshComponent
 public:	
 	void Rotate(float relativeSpeed);
 
-	UPROPERTY(EditAnywhere, Category = "Setup")
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float MaxDegreesPerSec = 25;
 };

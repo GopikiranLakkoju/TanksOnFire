@@ -29,13 +29,13 @@ protected:
 	bool GetSightRayHitlocation() const;
 	bool GetLookDirection(FVector2D, FVector&, FVector&) const;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		float CrosshairLocationX = 0.5;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		float CrosshairLocationY = 0.333;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		float LineTraceRange = 1000000.0;
 
 	void GetLookVectorHitLocation(FVector, FVector, FVector&) const;

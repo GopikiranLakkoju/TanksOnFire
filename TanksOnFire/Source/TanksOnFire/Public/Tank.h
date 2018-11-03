@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "TankMovementComponent.h"
 #include "TankAimingComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
@@ -22,6 +23,8 @@ protected:
 	virtual void BeginPlay() override;
 	UTankAimingComponent* TankAimingComponent = nullptr;
 	UTankBarrel* Barrel = nullptr;
+	UPROPERTY(BlueprintReadOnly, Category = "Input")
+	UTankMovementComponent* MovementComponent = nullptr;
 
 public:
 
@@ -38,9 +41,15 @@ public:
 		void Fire();
 
 	// Launch speed modifayable, 1000 m/s
-	UPROPERTY(EditAnywhere, Category = "Firing")
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 		float LaunchSpeed = 5000;
 
-	UPROPERTY(EditAnywhere, Category = "Setup")
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		TSubclassOf<AProjectile> ProjectileBlueprint;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float ReloadTime = 3; //secs
+
+private:	
+	float LastFireTime = 0;
 };

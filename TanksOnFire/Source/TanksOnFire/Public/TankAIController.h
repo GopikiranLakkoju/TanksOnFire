@@ -16,10 +16,8 @@ class TANKSONFIRE_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 public:
-	ATank* GetControlledTank() const;
 
 private:
-	ATank* GetPlayerControllerTank() const;
 
 protected:
 	virtual void BeginPlay() override;
