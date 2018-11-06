@@ -22,5 +22,9 @@ private:
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+
+	// how close can AI tank can come to hero tank
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float AcceptanceRadius = 3000;
 	
 };
