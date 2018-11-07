@@ -35,7 +35,10 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 {
 	FVector tankForward = GetOwner()->GetActorForwardVector();
 	FVector aiForwardIntension = MoveVelocity.GetSafeNormal();
-	//UE_LOG(LogTemp, Warning, TEXT("Tank name: %s with velocity: %s"), *tankName, *moveVelocity);
+	// calculates the angle between the 2 vectors
 	float forwardThrow = FVector::DotProduct(tankForward, aiForwardIntension);
 	IntendMoveForward(forwardThrow);
+
+	FVector rightThrow = FVector::CrossProduct(tankForward, aiForwardIntension);
+	IntendTurnRight(rightThrow.Z);
 }
