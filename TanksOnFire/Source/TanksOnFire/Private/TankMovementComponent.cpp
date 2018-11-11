@@ -33,6 +33,7 @@ void UTankMovementComponent::IntendTurnRight(float push)
 
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
 {
+	UE_LOG(LogTemp, Warning, TEXT("AI movement working"));
 	FVector tankForward = GetOwner()->GetActorForwardVector();
 	FVector aiForwardIntension = MoveVelocity.GetSafeNormal();
 	// calculates the angle between the 2 vectors
@@ -41,4 +42,6 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 
 	FVector rightThrow = FVector::CrossProduct(tankForward, aiForwardIntension);
 	IntendTurnRight(rightThrow.Z);
+
+	UE_LOG(LogTemp, Warning, TEXT("ForwardThrow: %f and RightThrow: %f"), forwardThrow, rightThrow.Z);
 }
