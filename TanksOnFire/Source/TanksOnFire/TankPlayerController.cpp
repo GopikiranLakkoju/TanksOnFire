@@ -10,17 +10,26 @@ ATank* ATankPlayerController::GetControlledTank() const
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	ATank* controlledTank = GetControlledTank();
-
-	if (!controlledTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController is not pocessed"));
-	}
+	
+	UTankAimingComponent* aimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (aimingComponent) {
+		FoundAimingCompnent(aimingComponent);
+	}	
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController is pocessed %s"), *controlledTank->GetName());
-	}
+		UE_LOG(LogTemp, Warning, TEXT("Player controller didn't find aim component"));
+	}	
+
+	// ATank* controlledTank = GetControlledTank();
+
+	// if (!controlledTank)
+	// {
+	// 	UE_LOG(LogTemp, Warning, TEXT("PlayerController is not pocessed"));
+	// }
+	// else
+	// {
+	// 	UE_LOG(LogTemp, Warning, TEXT("PlayerController is pocessed %s"), *controlledTank->GetName());
+	// }
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -41,12 +50,12 @@ void ATankPlayerController::AimTowardsCrosshair()
 	//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s on %s"), *hitLocation.ToString(), *ActorThatTookhit);
 }
 
-bool ATankPlayerController::GetSightRayHitlocation() const
+void ATankPlayerController::GetSightRayHitlocation() const
 {
 	// find the crosshair position in pixel co-ordinates
 	int32 viewPortSizeX, viewPortSizeY;
 	GetViewportSize(viewPortSizeX, viewPortSizeY);
-	auto screenLocation = FVector2D(viewPortSizeX * CrosshairLocationX, viewPortSizeY * CrosshairLocationY);
+	FVector2D screenLocation = FVector2D(viewPortSizeX * CrosshairLocationX, viewPortSizeY * CrosshairLocationY);
 	//UE_LOG(LogTemp, Warning, TEXT("Screenlocation: %s"), *screenLocation.ToString());
 	
 	FVector LookDirection;
@@ -58,8 +67,6 @@ bool ATankPlayerController::GetSightRayHitlocation() const
 		// line trace along the look direction, and see what we hit (max range)		
 		GetLookVectorHitLocation(LookDirection, CameraWorldLocation, LookDirection);
 	}
-
-	return false;
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D screenLocation, FVector& CameraWorldLocation, FVector& WorldDirection) const
@@ -89,5 +96,5 @@ void ATankPlayerController::GetLookVectorHitLocation(FVector lookDirection, FVec
 		tank->AimAt(hitLocation, tank->LaunchSpeed);
 		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s on Object %s"), *FVector(0).ToString(), *hitObject);
+	UE_LOG(LogTemp, Warning, TEXT("Raytracing Out of bounds"));
 }

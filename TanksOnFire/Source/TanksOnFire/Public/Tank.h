@@ -21,21 +21,16 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 	UTankBarrel* Barrel = nullptr;
-	UPROPERTY(BlueprintReadOnly, Category = "Input")
-	UTankMovementComponent* MovementComponent = nullptr;
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* TankMovementComponent = nullptr;
 
 public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-		void SetBarrelReference(UTankBarrel* barrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-		void SetTurretReference(UTankTurret* turretToSet);
 
 	UFUNCTION(BlueprintCallable)
 		void Fire();

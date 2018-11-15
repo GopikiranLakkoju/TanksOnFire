@@ -25,6 +25,16 @@ void UTankAimingComponent::BeginPlay()
 }
 
 
+void UTankAimingComponent::InitialiseTankAiming(UTankBarrel * tankBarrel, UTankTurret * tankTurret)
+{
+	//UE_LOG(LogTemp, Warning, TEXT("Aiming initialized"));
+	
+	if (Barrel || Turret) {
+		Barrel = tankBarrel;
+		Turret = tankTurret;
+	}
+}
+
 // Called every frame
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -55,30 +65,15 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed)
 	}
 }
 
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* barrelToSet)
-{
-	if (barrelToSet)
-	{
-		Barrel = barrelToSet;
-	}
-}
-
-
-void UTankAimingComponent::SetTurretReference(UTankTurret * turretToSet)
-{
-	if (turretToSet)
-	{
-		Turret = turretToSet;
-	}	
-}
-
 void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
-{
-	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
-	FRotator AimAsRotator = aimDirection.Rotation();
-	FRotator DeltaRotator = AimAsRotator - BarrelRotator;
-	// barrel pitch motion
-	Barrel->Elevate(DeltaRotator.Pitch);
-	// turret yaw motion
-	Turret->Rotate(DeltaRotator.Yaw);
+{	
+	if (Barrel || Turret) {
+		FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
+		FRotator AimAsRotator = aimDirection.Rotation();
+		FRotator DeltaRotator = AimAsRotator - BarrelRotator;
+		// barrel pitch motion
+		Barrel->Elevate(DeltaRotator.Pitch);
+		// turret yaw motion
+		Turret->Rotate(DeltaRotator.Yaw);	
+	}	
 }

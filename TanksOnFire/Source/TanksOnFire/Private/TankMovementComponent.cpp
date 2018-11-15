@@ -3,7 +3,7 @@
 #include "TankMovementComponent.h"
 #include "TankTrack.h"
 
-void UTankMovementComponent::Initialise(UTankTrack* leftTrack, UTankTrack* rightTrack)
+void UTankMovementComponent::InitialiseTankMovement(UTankTrack* leftTrack, UTankTrack* rightTrack)
 {	
 	LeftTrack = leftTrack;
 	RightTrack = rightTrack;
@@ -33,15 +33,15 @@ void UTankMovementComponent::IntendTurnRight(float push)
 
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("AI movement working"));
 	FVector tankForward = GetOwner()->GetActorForwardVector();
 	FVector aiForwardIntension = MoveVelocity.GetSafeNormal();
-	// calculates the angle between the 2 vectors
+	// calculates the cosine of angle between 2 vectors, multiplied by their lengths
+	// x.y = ||x|| ||y|| cos(theta)
 	float forwardThrow = FVector::DotProduct(tankForward, aiForwardIntension);
 	IntendMoveForward(forwardThrow);
 
 	FVector rightThrow = FVector::CrossProduct(tankForward, aiForwardIntension);
 	IntendTurnRight(rightThrow.Z);
 
-	UE_LOG(LogTemp, Warning, TEXT("ForwardThrow: %f and RightThrow: %f"), forwardThrow, rightThrow.Z);
+	//UE_LOG(LogTemp, Warning, TEXT("ForwardThrow: %f and RightThrow: %f"), forwardThrow, rightThrow.Z);
 }

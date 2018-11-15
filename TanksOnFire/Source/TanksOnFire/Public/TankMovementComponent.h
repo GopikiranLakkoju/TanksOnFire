@@ -19,13 +19,13 @@ class TANKSONFIRE_API UTankMovementComponent : public UNavMovementComponent
 	GENERATED_BODY()
 
 
-public:	
+public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-		void Initialise(UTankTrack * leftTrack, UTankTrack * rightTrack);
+		void InitialiseTankMovement(UTankTrack * leftTrack, UTankTrack * rightTrack);
 	UFUNCTION(BlueprintCallable, Category = "Input")
 		void IntendMoveForward(float push);
 	UFUNCTION(BlueprintCallable, Category = "Input")
-	void IntendTurnRight(float push);
+		void IntendTurnRight(float push);
 
 private:
 	UTankTrack* LeftTrack = nullptr;
