@@ -16,7 +16,6 @@ void ATank::BeginPlay()
 {
 	// if this method is not called, it wont call eventgraph code resided in the blueprint
 	Super::BeginPlay();
-	
 }
 
 // Called to bind functionality to input
@@ -27,21 +26,16 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::Fire()
 {
-	float isReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTime;
-
-	if (Barrel && isReloaded)
+	if (ensure(Barrel))
 	{
-		AProjectile* projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
-		UE_LOG(LogTemp, Warning, TEXT("Projectile working"));
-		projectile->LaunchProjectile(LaunchSpeed);
-		LastFireTime = GetWorld()->GetTimeSeconds();
-	}
-}
+		float isReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTime;
 
-void ATank::AimAt(FVector hitLocation, float launchSpeed)
-{
-	
-	if (TankAimingComponent) {
-		TankAimingComponent->AimAt(hitLocation, launchSpeed);
+		if (isReloaded)
+		{
+			AProjectile* projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
+			UE_LOG(LogTemp, Warning, TEXT("Projectile working"));
+			projectile->LaunchProjectile(LaunchSpeed);
+			LastFireTime = GetWorld()->GetTimeSeconds();
+		}
 	}	
 }

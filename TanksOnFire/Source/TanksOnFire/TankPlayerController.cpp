@@ -2,23 +2,14 @@
 
 #include "TankPlayerController.h"
 
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	UTankAimingComponent* aimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (aimingComponent) {
-		FoundAimingCompnent(aimingComponent);
-	}	
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player controller didn't find aim component"));
-	}	
+
+	TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (ensure(TankAimingComponent)) {
+		FoundAimingComponent(TankAimingComponent);
+	}
 
 	// ATank* controlledTank = GetControlledTank();
 
@@ -40,12 +31,12 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank())
-		return;
+	if (ensure(GetPawn()))
+	{
+		FVector hitLocation;
 
-	FVector hitLocation;
-
-	GetSightRayHitlocation();
+		GetSightRayHitlocation();
+	}
 
 	//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s on %s"), *hitLocation.ToString(), *ActorThatTookhit);
 }
@@ -57,11 +48,10 @@ void ATankPlayerController::GetSightRayHitlocation() const
 	GetViewportSize(viewPortSizeX, viewPortSizeY);
 	FVector2D screenLocation = FVector2D(viewPortSizeX * CrosshairLocationX, viewPortSizeY * CrosshairLocationY);
 	//UE_LOG(LogTemp, Warning, TEXT("Screenlocation: %s"), *screenLocation.ToString());
-	
+
 	FVector LookDirection;
 	FVector CameraWorldLocation;
-	// deproject and get the direction by converting 2d co-ordinate supplied with 3d co-ordinate
-	// returns true if processed
+	
 	if (GetLookDirection(screenLocation, CameraWorldLocation, LookDirection))
 	{
 		// line trace along the look direction, and see what we hit (max range)		
@@ -70,13 +60,10 @@ void ATankPlayerController::GetSightRayHitlocation() const
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D screenLocation, FVector& CameraWorldLocation, FVector& WorldDirection) const
-{	
-	bool is3dposition = DeprojectScreenPositionToWorld(screenLocation.X, screenLocation.Y, CameraWorldLocation, WorldDirection);
-	if (is3dposition)
-	{
-		//UE_LOG(LogTemp, Warning, TEXT("3d position Direction: %s"), *WorldDirection.ToString());
-	}
-	return is3dposition;
+{
+	// deproject and get the direction by converting 2d co-ordinate supplied with 3d co-ordinate
+	// returns true if processed
+	return DeprojectScreenPositionToWorld(screenLocation.X, screenLocation.Y, CameraWorldLocation, WorldDirection);
 }
 
 void ATankPlayerController::GetLookVectorHitLocation(FVector lookDirection, FVector cameraWorldLocation, FVector& hitLocation) const
@@ -90,10 +77,10 @@ void ATankPlayerController::GetLookVectorHitLocation(FVector lookDirection, FVec
 	{
 		hitLocation = hitResult.ImpactPoint;
 		hitObject = hitResult.GetActor()->GetName();
-		ATank* tank = GetControlledTank();
+		APawn* tank = GetPawn();
 		//DrawDebugLine(GetWorld(), hitResult.TraceStart, hitResult.TraceEnd, FColor::Red, false, 0.0, 0.0, 10.0);
 		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s on Object %s"), *hitLocation.ToString(), *hitObject);
-		tank->AimAt(hitLocation, tank->LaunchSpeed);
+		TankAimingComponent->AimAt(hitLocation);
 		return;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Raytracing Out of bounds"));

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Tank.h"
+#include "TankAimingComponent.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
 #include "CoreMinimal.h"
@@ -23,7 +23,7 @@ class TANKSONFIRE_API ATankPlayerController : public APlayerController
 public:	
 	virtual void Tick(float DeltaTime) override;
 	void AimTowardsCrosshair();
-
+	UTankAimingComponent* TankAimingComponent = nullptr;
 protected:
 	virtual void BeginPlay() override;
 	void GetSightRayHitlocation() const;
@@ -39,9 +39,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 		float LineTraceRange = 1000000.0;	
 	
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const;
-
 	UFUNCTION(BlueprintImplementableEvent, category = "Setup")
-		void FoundAimingCompnent(UTankAimingComponent* aimingComponent);
+		void FoundAimingComponent(UTankAimingComponent* aimingComponent);
+
+private:
+	
 };

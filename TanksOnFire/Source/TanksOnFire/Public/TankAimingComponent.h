@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "../Public/TankBarrel.h"
+#include "TankBarrel.h"
 #include "TankTurret.h"
 #include "Projectile.h"
 #include "CoreMinimal.h"
@@ -31,7 +31,7 @@ class TANKSONFIRE_API UTankAimingComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
-	void AimAt(FVector hitLocation, float launchSpeed);
+	void AimAt(FVector hitLocation);
 
 	void MoveBarrelTowards(FVector aimDirection);
 
@@ -52,4 +52,6 @@ public:
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
+
+	float LaunchSpeed = 5000;
 };

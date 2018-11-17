@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAIController.h"
-#include "../Public/TankAIController.h"
 
 
 void ATankAIController::Tick(float DeltaTime)
@@ -9,33 +8,23 @@ void ATankAIController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	// hero pawn and tank
-	APawn* heroPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-	ATank* heroTank = Cast<ATank>(heroPawn);
+	APawn* playerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+	
 	// enemy pawn and tank
-	APawn* enemyPawn = GetPawn();
-	ATank* enemyTank = Cast<ATank>(enemyPawn);
+	APawn* enemyPawn = GetPawn();	
+
+	UTankAimingComponent* tankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 		
-	if (heroTank)
+	if (ensure(playerPawn && enemyPawn))
 	{
 		// move the tank towards hero tank
-		MoveToActor(heroTank, AcceptanceRadius);
-		enemyTank->AimAt(heroTank->GetActorLocation(), enemyTank->LaunchSpeed);
-		enemyTank->Fire();
+		MoveToActor(playerPawn, AcceptanceRadius);
+		tankAimingComponent->AimAt(playerPawn->GetActorLocation());
+		//enemyPawn->Fire();
 	}
 }
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-		
-	/*ATank* playerControlledTank = GetPlayerControllerTank();
-	
-	if (!playerControlledTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AIController can't find player tank"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AIController found the player: %s"), *playerControlledTank->GetName());
-	}*/
 }

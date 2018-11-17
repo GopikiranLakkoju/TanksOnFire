@@ -12,3 +12,6 @@
 *.suo
 *.vs
 *.sln
+
+# Exclusions for Visual Studio Code
+*.vscode/
