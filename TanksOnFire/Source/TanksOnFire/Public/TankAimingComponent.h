@@ -32,8 +32,10 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	void AimAt(FVector hitLocation);
-
 	void MoveBarrelTowards(FVector aimDirection);
+
+	UFUNCTION(BlueprintCallable)
+		void Fire();
 
 protected:
 	// Called when the game starts
@@ -45,6 +47,16 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void InitialiseTankAiming(UTankBarrel* tankBarrel, UTankTurret* tankTurret);
 
+	// Launch speed modifayable, 1000 m/s
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		float LaunchSpeed = 5000;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float ReloadTime = 3; //secs
+
 public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -53,5 +65,5 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
-	float LaunchSpeed = 5000;
+	float LastFireTime = 0;
 };

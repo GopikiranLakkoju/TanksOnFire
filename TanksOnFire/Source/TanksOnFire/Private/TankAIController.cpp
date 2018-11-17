@@ -20,7 +20,7 @@ void ATankAIController::Tick(float DeltaTime)
 		// move the tank towards hero tank
 		MoveToActor(playerPawn, AcceptanceRadius);
 		tankAimingComponent->AimAt(playerPawn->GetActorLocation());
-		//enemyPawn->Fire();
+		tankAimingComponent->Fire();
 	}
 }
 

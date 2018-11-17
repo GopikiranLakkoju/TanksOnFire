@@ -29,6 +29,7 @@ protected:
 	void GetSightRayHitlocation() const;
 	bool GetLookDirection(FVector2D, FVector&, FVector&) const;
 	void GetLookVectorHitLocation(FVector, FVector, FVector&) const;
+	UTankBarrel* Barrel = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
 		float CrosshairLocationX = 0.5;
@@ -43,5 +44,4 @@ protected:
 		void FoundAimingComponent(UTankAimingComponent* aimingComponent);
 
 private:
-	
 };

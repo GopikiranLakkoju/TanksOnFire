@@ -79,7 +79,7 @@ void ATankPlayerController::GetLookVectorHitLocation(FVector lookDirection, FVec
 		hitObject = hitResult.GetActor()->GetName();
 		APawn* tank = GetPawn();
 		//DrawDebugLine(GetWorld(), hitResult.TraceStart, hitResult.TraceEnd, FColor::Red, false, 0.0, 0.0, 10.0);
-		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s on Object %s"), *hitLocation.ToString(), *hitObject);
+		//UE_LOG(LogTemp, Warning, TEXT("HitLocation on Object %s"), *hitObject);
 		TankAimingComponent->AimAt(hitLocation);
 		return;
 	}

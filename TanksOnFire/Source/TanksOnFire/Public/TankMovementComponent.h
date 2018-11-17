@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "TankTrack.h"
 #include "CoreMinimal.h"
 #include "GameFramework/NavMovementComponent.h"
 #include "TankMovementComponent.generated.h"
