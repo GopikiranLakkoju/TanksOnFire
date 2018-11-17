@@ -40,9 +40,10 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	bool IsBarrelMoving();
 
 	UPROPERTY(BlueprintReadOnly, Category = "Firing Status")
-		EFiringState FiringStatus = EFiringState::Aiming;
+		EFiringState FiringStatus = EFiringState::Reloading;
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void InitialiseTankAiming(UTankBarrel* tankBarrel, UTankTurret* tankTurret);
@@ -66,4 +67,6 @@ private:
 	UTankTurret* Turret = nullptr;
 
 	float LastFireTime = 0;
+	FVector AimDirection;
+	float worldTimeline = 0;
 };
