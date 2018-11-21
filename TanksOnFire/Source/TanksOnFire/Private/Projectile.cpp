@@ -16,7 +16,7 @@ AProjectile::AProjectile()
 void AProjectile::LaunchProjectile(float launchSpeed)
 {
 	float time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f: Projectile fires at %f"), time, launchSpeed);
+	//UE_LOG(LogTemp, Warning, TEXT("%f: Projectile fires at %f"), time, launchSpeed);
 	ProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector * launchSpeed);
 	// activates the behavior that we have stopped in constructor and re-initiating again, so it would pick the speed
 	ProjectileMovementComponent->Activate();

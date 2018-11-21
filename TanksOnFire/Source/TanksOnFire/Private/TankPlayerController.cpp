@@ -83,5 +83,5 @@ void ATankPlayerController::GetLookVectorHitLocation(FVector lookDirection, FVec
 		TankAimingComponent->AimAt(hitLocation);
 		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Raytracing Out of bounds"));
+	//UE_LOG(LogTemp, Warning, TEXT("Raytracing Out of bounds"));
 }

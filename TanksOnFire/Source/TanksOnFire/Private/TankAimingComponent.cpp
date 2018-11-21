@@ -49,7 +49,12 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 		//UE_LOG(LogTemp, Warning, TEXT("Locked"));
 	}
 	
-	UE_LOG(LogTemp, Warning, TEXT("LastFireTime: %f"), LastFireTime);
+	//UE_LOG(LogTemp, Warning, TEXT("LastFireTime: %f"), LastFireTime);
+}
+
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringStatus;
 }
 
 bool UTankAimingComponent::IsBarrelMoving()
@@ -95,7 +100,15 @@ void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 		// barrel pitch motion
 		Barrel->Elevate(DeltaRotator.Pitch);
 		// turret yaw motion
-		Turret->Rotate(DeltaRotator.Yaw);
+		if (FMath::Abs(DeltaRotator.Yaw))
+		{
+			Turret->Rotate(DeltaRotator.Yaw);
+		}
+		else
+		{
+			Turret->Rotate(-DeltaRotator.Yaw);
+		}
+		
 	}
 }
 
@@ -103,11 +116,11 @@ void UTankAimingComponent::Fire()
 {	
 	if (ensure(Barrel && ProjectileBlueprint))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("firing is working"));
+		//UE_LOG(LogTemp, Warning, TEXT("firing is working"));
 		if (FiringStatus == EFiringState::Aiming)
 		{
 			AProjectile* projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
-			UE_LOG(LogTemp, Warning, TEXT("Projectile working"));
+			//UE_LOG(LogTemp, Warning, TEXT("Projectile working"));
 			projectile->LaunchProjectile(LaunchSpeed);
 			LastFireTime = worldTimeline;
 		}
