@@ -6,7 +6,7 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	TankAimingComponent = GetPawn() != nullptr ? GetPawn()->FindComponentByClass<UTankAimingComponent>() : nullptr;
 	if (ensure(TankAimingComponent)) {
 		FoundAimingComponent(TankAimingComponent);
 	}
@@ -81,7 +81,6 @@ void ATankPlayerController::GetLookVectorHitLocation(FVector lookDirection, FVec
 		//DrawDebugLine(GetWorld(), hitResult.TraceStart, hitResult.TraceEnd, FColor::Red, false, 0.0, 0.0, 10.0);
 		//UE_LOG(LogTemp, Warning, TEXT("HitLocation on Object %s"), *hitObject);
 		TankAimingComponent->AimAt(hitLocation);
-		return;
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Raytracing Out of bounds"));
 }

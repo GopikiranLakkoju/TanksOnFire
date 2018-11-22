@@ -57,17 +57,19 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float ReloadTime = 3; //secs
+	UPROPERTY(BlueprintReadOnly, Category = "Firing")
+		int BulletsFired = 0;
 
 public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	EFiringState GetFiringState() const;
-
+	float LastFireTime = 0;
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
-	float LastFireTime = 0;
+	
 	FVector AimDirection;
 	float worldTimeline = 0;
 };

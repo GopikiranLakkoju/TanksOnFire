@@ -13,15 +13,16 @@ void ATankAIController::Tick(float DeltaTime)
 	// enemy pawn and tank
 	APawn* enemyPawn = GetPawn();	
 
-	UTankAimingComponent* tankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	UTankAimingComponent* tankAimingComponent = enemyPawn->FindComponentByClass<UTankAimingComponent>();
 		
-	if (ensure(playerPawn && enemyPawn))
+	if (ensure(playerPawn))
 	{
 		// move the tank towards hero tank
 		MoveToActor(playerPawn, AcceptanceRadius);
 		tankAimingComponent->AimAt(playerPawn->GetActorLocation());
 		if (tankAimingComponent->GetFiringState() == EFiringState::Aiming)
 		{
+			//UE_LOG(LogTemp, Warning, TEXT("AI tank name: %s fires at time: %f"), *enemyPawn->GetName(), tankAimingComponent->LastFireTime);
 			tankAimingComponent->Fire();
 		}		
 	}

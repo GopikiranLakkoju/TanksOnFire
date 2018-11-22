@@ -100,7 +100,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 		// barrel pitch motion
 		Barrel->Elevate(DeltaRotator.Pitch);
 		// turret yaw motion
-		if (FMath::Abs(DeltaRotator.Yaw))
+		if (FMath::Abs(DeltaRotator.Yaw) < 180)
 		{
 			Turret->Rotate(DeltaRotator.Yaw);
 		}
@@ -123,6 +123,7 @@ void UTankAimingComponent::Fire()
 			//UE_LOG(LogTemp, Warning, TEXT("Projectile working"));
 			projectile->LaunchProjectile(LaunchSpeed);
 			LastFireTime = worldTimeline;
+			BulletsFired++;
 		}
 	}
 }
