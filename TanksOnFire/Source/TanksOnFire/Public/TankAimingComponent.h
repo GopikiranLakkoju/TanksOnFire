@@ -58,7 +58,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float ReloadTime = 3; //secs
 	UPROPERTY(BlueprintReadOnly, Category = "Firing")
-		int BulletsFired = 0;
+		int32 BulletsFired = 0;
 
 public:
 	// Called every frame
