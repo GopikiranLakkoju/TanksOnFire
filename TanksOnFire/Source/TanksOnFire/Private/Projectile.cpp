@@ -8,17 +8,29 @@ AProjectile::AProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	//CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
-	//SetRootComponent(CollisionMesh);
-	//CollisionMesh->SetNotifyRigidBodyCollision(true);
-	////CollisionMesh->SetVisibility(false);
+	AttachementsForProjectile();
+}
 
-	//LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
-	//LaunchBlast->SetupAttachment(CollisionMesh);
+void AProjectile::AttachementsForProjectile()
+{
+	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
+	SetRootComponent(CollisionMesh);
+	CollisionMesh->SetNotifyRigidBodyCollision(true);
+	//CollisionMesh->SetVisibility(false);
+
+	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
+	LaunchBlast->SetupAttachment(RootComponent);
+
+	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast"));
+	ImpactBlast->SetupAttachment(RootComponent);
+	ImpactBlast->bAutoActivate = false;
 
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Movement component"));
 	// false is not to make the projectile component file, unless fired
 	ProjectileMovementComponent->bAutoActivate = false;
+
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force"));
+	ExplosionForce->SetupAttachment(RootComponent);
 }
 
 void AProjectile::LaunchProjectile(float launchSpeed)
@@ -35,6 +47,13 @@ void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void AProjectile::ShowImpactWithParticleEffect()
+{
+	LaunchBlast->Deactivate();
+	ImpactBlast->Activate();
+	ExplosionForce->FireImpulse();
 }
 
 // Called every frame
