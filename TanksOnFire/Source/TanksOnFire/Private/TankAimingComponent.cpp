@@ -59,7 +59,7 @@ EFiringState UTankAimingComponent::GetFiringState() const
 
 bool UTankAimingComponent::IsBarrelMoving()
 {
-	if (ensure(Barrel))
+	if (Barrel)
 	{
 		FVector barrelForward = Barrel->GetForwardVector();
 		return barrelForward.Equals(AimDirection, 0.01);
@@ -69,7 +69,7 @@ bool UTankAimingComponent::IsBarrelMoving()
 
 void UTankAimingComponent::AimAt(FVector hitLocation)
 {
-	if (ensure(Barrel))
+	if (Barrel)
 	{
 		FVector OutLaunchVelocity;
 		FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -92,7 +92,7 @@ void UTankAimingComponent::AimAt(FVector hitLocation)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 {
-	if (ensure(Barrel || Turret))
+	if (Barrel || Turret)
 	{
 		FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
 		FRotator AimAsRotator = aimDirection.Rotation();
@@ -114,7 +114,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 
 void UTankAimingComponent::Fire()
 {	
-	if (ensure(Barrel && ProjectileBlueprint))
+	if (Barrel && ProjectileBlueprint)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("firing is working"));
 		if (FiringStatus == EFiringState::Aiming)

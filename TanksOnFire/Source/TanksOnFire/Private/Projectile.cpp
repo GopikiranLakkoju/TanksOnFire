@@ -19,10 +19,10 @@ void AProjectile::AttachementsForProjectile()
 	//CollisionMesh->SetVisibility(false);
 
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
-	LaunchBlast->SetupAttachment(RootComponent);
+	LaunchBlast->SetupAttachment(CollisionMesh);
 
 	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast"));
-	ImpactBlast->SetupAttachment(RootComponent);
+	ImpactBlast->SetupAttachment(CollisionMesh);
 	ImpactBlast->bAutoActivate = false;
 
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Movement component"));
@@ -30,7 +30,7 @@ void AProjectile::AttachementsForProjectile()
 	ProjectileMovementComponent->bAutoActivate = false;
 
 	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force"));
-	ExplosionForce->SetupAttachment(RootComponent);
+	ExplosionForce->SetupAttachment(CollisionMesh);
 }
 
 void AProjectile::LaunchProjectile(float launchSpeed)
@@ -53,7 +53,20 @@ void AProjectile::ShowImpactWithParticleEffect()
 {
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
+	// impulse is integral of force over time (J = average force F over delta time T)
 	ExplosionForce->FireImpulse();
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
+
+	// this would call, all the actors that implemented TakeDamage method
+	UGameplayStatics::ApplyRadialDamage(this, DamageRate, GetActorLocation(), ExplosionForce->Radius, UDamageType::StaticClass(), TArray<AActor*>());
+	/*FTimerHandle outTimer;
+	GetWorld()->GetTimerManager().SetTimer(outTimer, this, &AProjectile::OnTimeExpire, DestoryDelay);*/
+}
+
+void AProjectile::OnTimeExpire()
+{
+	Destroy();
 }
 
 // Called every frame

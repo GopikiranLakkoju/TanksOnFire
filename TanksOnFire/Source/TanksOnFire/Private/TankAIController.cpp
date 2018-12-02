@@ -15,7 +15,7 @@ void ATankAIController::Tick(float DeltaTime)
 
 	UTankAimingComponent* tankAimingComponent = enemyPawn->FindComponentByClass<UTankAimingComponent>();
 		
-	if (ensure(playerPawn))
+	if (playerPawn)
 	{
 		// move the tank towards hero tank
 		MoveToActor(playerPawn, AcceptanceRadius);

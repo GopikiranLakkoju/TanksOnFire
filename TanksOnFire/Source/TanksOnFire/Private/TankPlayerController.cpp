@@ -7,7 +7,7 @@ void ATankPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	TankAimingComponent = GetPawn() != nullptr ? GetPawn()->FindComponentByClass<UTankAimingComponent>() : nullptr;
-	if (ensure(TankAimingComponent)) {
+	if (TankAimingComponent) {
 		FoundAimingComponent(TankAimingComponent);
 	}
 
@@ -31,7 +31,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (ensure(GetPawn()))
+	if (GetPawn())
 	{
 		FVector hitLocation;
 
