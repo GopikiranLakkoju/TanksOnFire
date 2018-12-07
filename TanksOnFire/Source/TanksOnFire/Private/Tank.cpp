@@ -11,6 +11,12 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+	CurrentHealth = StartingHealth;
+}
+
 float ATank::GetHealthPercentage() const
 {
 	return (float) CurrentHealth / (float) StartingHealth;
@@ -27,7 +33,9 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AC
 
 	if (CurrentHealth <= 10)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("You are dead!"), CurrentHealth);
+		// broadcasts or executes the methods that are tied to the delegate either by AI or player controller
+		OnDeath.Broadcast();
+		//UE_LOG(LogTemp, Warning, TEXT("You are dead!"), CurrentHealth);
 	}
 
 	//UE_LOG(LogTemp, Warning, TEXT("CurrentHealth=%i"), CurrentHealth);

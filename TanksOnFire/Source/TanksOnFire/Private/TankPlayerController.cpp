@@ -84,3 +84,26 @@ void ATankPlayerController::GetLookVectorHitLocation(FVector lookDirection, FVec
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Raytracing Out of bounds"));
 }
+
+void ATankPlayerController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	if (InPawn)
+	{
+		ATank* pocessedTank = Cast<ATank>(InPawn);
+		if (pocessedTank)
+		{
+			// subscribe local method on tank's death event
+			pocessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPocessedTankDeath);
+		}
+	}
+
+}
+
+void ATankPlayerController::OnPocessedTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("You %s dead"), *GetName());
+	// goes to spectate mode
+	StartSpectatingOnly();
+}

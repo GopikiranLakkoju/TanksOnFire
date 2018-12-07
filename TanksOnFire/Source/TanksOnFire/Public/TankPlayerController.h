@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Tank.h"
 #include "TankAimingComponent.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
@@ -43,5 +44,10 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, category = "Setup")
 		void FoundAimingComponent(UTankAimingComponent* aimingComponent);
 
+	// called when Player tank is pocessed
+	virtual void SetPawn(APawn* InPawn) override;
+
 private:
+	UFUNCTION()
+		void OnPocessedTankDeath();
 };

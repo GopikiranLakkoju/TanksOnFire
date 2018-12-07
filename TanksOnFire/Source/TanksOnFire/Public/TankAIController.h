@@ -6,6 +6,7 @@
 #include "Engine/World.h"
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "Tank.h"
 #include "TankAIController.generated.h"
 
 /**
@@ -18,10 +19,14 @@ class TANKSONFIRE_API ATankAIController : public AAIController
 public:
 
 private:
+	UFUNCTION()
+		void OnPocessedTankDeath();
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	// called when AI tank is pocessed
+	virtual void SetPawn(APawn* InPawn) override;
 
 	// how close can AI tank can come to hero tank
 	UPROPERTY(EditAnyWhere, Category = "Setup")

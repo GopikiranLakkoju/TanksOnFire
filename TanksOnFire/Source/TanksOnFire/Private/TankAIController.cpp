@@ -28,6 +28,30 @@ void ATankAIController::Tick(float DeltaTime)
 	}
 }
 
+void ATankAIController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		ATank* pocessedTank = Cast<ATank>(InPawn);
+		if (pocessedTank)
+		{
+			// subscribe local method on tank's death event
+			pocessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPocessedTankDeath);
+		}
+	}
+}
+
+void ATankAIController::OnPocessedTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("AI %s is dead"), *GetName());
+	APawn* aiPawn = GetPawn();
+	if (aiPawn)
+	{
+		aiPawn->DetachFromControllerPendingDestroy();
+	}
+}
+
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
