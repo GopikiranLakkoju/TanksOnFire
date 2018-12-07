@@ -14,10 +14,12 @@ class TANKSONFIRE_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATank();
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealthPercentage() const;
 
 protected:
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
-
+	
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 		int32 StartingHealth = 100;
