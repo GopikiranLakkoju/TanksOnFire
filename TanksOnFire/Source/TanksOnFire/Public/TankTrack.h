@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "SpawnPoint.h"
+#include "SpringWheel.h"
 #include "CoreMinimal.h"
 #include "Components/StaticMeshComponent.h"
 #include "TankTrack.generated.h"
@@ -20,15 +22,14 @@ public:
 		void SetThrottle(float throttle);
 	// Max force per track in Newtons
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-		float TankMaxForce = 40000000; // Assuimg 40 tonnes tank and 1g acceleration
+		float TankMaxForce = 40000000; // Assuming 40 tonnes tank and (10 meters square = 1g) acceleration
 
 private:
 	UTankTrack();
 	virtual void BeginPlay() override;
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-	void ApplySideForce();
-	void DriveTrack();
+	void DriveTrack(float currrentThrottle);
 	float DeltaTime = 0;
-	float CurrentThrottle = 0;
+
+protected:
+	TArray<ASpringWheel*> GetWheels() const;
 };

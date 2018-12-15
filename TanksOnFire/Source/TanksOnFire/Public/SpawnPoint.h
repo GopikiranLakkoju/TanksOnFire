@@ -16,17 +16,20 @@ class TANKSONFIRE_API USpawnPoint : public USceneComponent
 public:	
 	// Sets default values for this component's properties
 	USpawnPoint();
-
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;	
-
-public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	constexpr AActor* GetSpawnedActor();
+
+protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+	
 private:
 	// TSubclassOf can be used to set the child class in blueprint
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		TSubclassOf<ASpringWheel> SpawnClass;		
+		TSubclassOf<ASpringWheel> SpawnClass;
+
+	UPROPERTY()
+		AActor* SpawnedActor = nullptr;	
 };

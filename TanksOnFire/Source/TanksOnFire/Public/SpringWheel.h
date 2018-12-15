@@ -16,12 +16,15 @@ class TANKSONFIRE_API ASpringWheel : public AActor
 public:
 	// Sets default values for this actor's properties
 	ASpringWheel();
+	// adds driving force to the wheels
+	void AddDrivingForce(float forceMagnitude);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	// sets the constraint between body and wheels
 	void SetupConstraint();
+
 
 public:
 	// Called every frame
@@ -36,4 +39,11 @@ private:
 		UPhysicsConstraintComponent* MassWheelPhysicsConstraint = nullptr;
 	UPROPERTY(VisibleAnywhere, Category = "Spring Component")
 		UPhysicsConstraintComponent* AxleWheelPhysicsConstraint = nullptr;
+
+	UFUNCTION()
+		virtual void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	void ApplyForce();
+
+	float TotalForceMagnitudeOnThisFrame = 0;
 };
