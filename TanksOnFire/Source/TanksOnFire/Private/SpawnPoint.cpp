@@ -18,6 +18,9 @@ void USpawnPoint::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// SpawnActorDeferred delays the BeginPlay of SpringWheel class, which will be
+	// initiated only after explict call to UGameplayStatics::FinishSpawningActor
+	// meanwile we can do some stuff
 	SpawnedActor = GetWorld()->SpawnActorDeferred<AActor>(SpawnClass, GetComponentTransform());
 	if (SpawnedActor)
 	{
