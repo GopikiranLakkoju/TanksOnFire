@@ -17,7 +17,7 @@ UTankAimingComponent::UTankAimingComponent()
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
-	
+	Super::BeginPlay();
 }
 
 void UTankAimingComponent::InitialiseTankAiming(UTankBarrel * tankBarrel, UTankTurret * tankTurret)
